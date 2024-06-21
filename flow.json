@@ -1,0 +1,781 @@
+[
+    {
+        "id": "f0fb9e8a323f45cc",
+        "type": "tab",
+        "label": "ENPHASE",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a79a817b27a34762",
+        "type": "http request",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://10.4.4.66/production.json",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 350,
+        "y": 240,
+        "wires": [
+            [
+                "7a5fddbe3c77116f",
+                "4e7f19120cac7f80",
+                "af2117b81ee07b7e",
+                "20fd4fea4c41cf53",
+                "e250f53b8b133345",
+                "d9a39f03effa1ffc",
+                "fddd9fab873176d7"
+            ]
+        ]
+    },
+    {
+        "id": "9c67c96476cae596",
+        "type": "inject",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 240,
+        "wires": [
+            [
+                "a79a817b27a34762"
+            ]
+        ]
+    },
+    {
+        "id": "7a5fddbe3c77116f",
+        "type": "debug",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 590,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "4e7f19120cac7f80",
+        "type": "function",
+        "z": "f0fb9e8a323f45cc",
+        "name": "production wNow",
+        "func": "msg.payload = msg.payload.production[1].wNow;\nif(msg.payload < 0){msg.payload=0;}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 280,
+        "wires": [
+            [
+                "8c1b8ca2e31d689d",
+                "6072c511f1b62fba",
+                "c0dd275f7ebdbc25"
+            ]
+        ]
+    },
+    {
+        "id": "8c1b8ca2e31d689d",
+        "type": "debug",
+        "z": "f0fb9e8a323f45cc",
+        "name": "production",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 810,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "af2117b81ee07b7e",
+        "type": "function",
+        "z": "f0fb9e8a323f45cc",
+        "name": "consumption",
+        "func": "msg.payload = msg.payload.consumption[1];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 960,
+        "wires": [
+            [
+                "814ea966e25650bd",
+                "715dd19c23f6f3bb"
+            ]
+        ]
+    },
+    {
+        "id": "814ea966e25650bd",
+        "type": "debug",
+        "z": "f0fb9e8a323f45cc",
+        "name": "consumption",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 810,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "1cc4ebed5bb03d08",
+        "type": "inject",
+        "z": "f0fb9e8a323f45cc",
+        "name": "1MIN",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 80,
+        "wires": [
+            [
+                "f61fa360d33d4559"
+            ]
+        ]
+    },
+    {
+        "id": "f61fa360d33d4559",
+        "type": "http request",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://10.4.4.66/api/v1/production/inverters",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "digest",
+        "senderr": false,
+        "headers": [],
+        "x": 350,
+        "y": 80,
+        "wires": [
+            [
+                "7376a5cf1f437ae8",
+                "3b5cb01aaafe0e69"
+            ]
+        ]
+    },
+    {
+        "id": "7376a5cf1f437ae8",
+        "type": "debug",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 570,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "3b5cb01aaafe0e69",
+        "type": "function",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "func": "data = {};\nfor (var i = 0; i < msg.payload.length; i++) {\n    //node.warn(msg.payload[i].lastReportWatts);\n    data[msg.payload[i].serialNumber]= msg.payload[i].lastReportWatts;}\n\nmsg.payload = data;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 120,
+        "wires": [
+            [
+                "0730af5d874ec870",
+                "19a9f67e355dac89"
+            ]
+        ]
+    },
+    {
+        "id": "0730af5d874ec870",
+        "type": "debug",
+        "z": "f0fb9e8a323f45cc",
+        "name": "Power",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 770,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "c8c52b8f66304246",
+        "type": "function",
+        "z": "f0fb9e8a323f45cc",
+        "name": "ESS/Enphase",
+        "func": "msg.payload = \n    {\n        measurement: node.name+\"/\"+msg.topic,\n        fields: {value: Number(msg.payload)},\n        timestamp: new Date()\n    };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 180,
+        "wires": [
+            [
+                "ec4459bcd3d42575"
+            ]
+        ]
+    },
+    {
+        "id": "19a9f67e355dac89",
+        "type": "split",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "topic",
+        "x": 570,
+        "y": 180,
+        "wires": [
+            [
+                "c8c52b8f66304246"
+            ]
+        ]
+    },
+    {
+        "id": "ec4459bcd3d42575",
+        "type": "link out",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "links": [
+            "3eddfdff.12a8c2",
+            "20c22cd59b492445"
+        ],
+        "x": 1055,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "6072c511f1b62fba",
+        "type": "function",
+        "z": "f0fb9e8a323f45cc",
+        "name": "ESS/Enphase/production",
+        "func": "if(msg.payload!=null && isNaN(msg.payload)!=true){\nmsg.payload = \n    {\n        measurement: node.name,\n        fields: {value: Number(msg.payload)},\n        timestamp: new Date()\n    };\nreturn msg;\n    \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 340,
+        "wires": [
+            [
+                "ec4459bcd3d42575"
+            ]
+        ]
+    },
+    {
+        "id": "715dd19c23f6f3bb",
+        "type": "split",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "topic",
+        "x": 570,
+        "y": 1020,
+        "wires": [
+            [
+                "21d3d8051b9539ab"
+            ]
+        ]
+    },
+    {
+        "id": "21d3d8051b9539ab",
+        "type": "function",
+        "z": "f0fb9e8a323f45cc",
+        "name": "ESS/Enphase/GRID",
+        "func": "if(msg.topic==\"type\"){\n}else if(msg.topic==\"undefined\"){\n}else if(msg.topic==\"activeCount\"){\n}else if(msg.topic==\"measurementType\"){\n}else if(msg.topic==\"whLifetime\"){\n}else if(msg.topic==\"varhLeadLifetime\"){\n}else if(msg.topic==\"varhLagLifetime\"){\n}else if(msg.topic==\"vahLifetime\"){\n}else if(msg.topic==\"varhLeadToday\"){\n}else if(msg.topic==\"varhLagToday\"){\n}else{\n    msg.payload = \n    {\n        measurement: node.name+\"/\"+msg.topic,\n        fields: {value: Number(msg.payload)},\n        timestamp: new Date()\n    };\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 1020,
+        "wires": [
+            [
+                "813b13c37faaa26b",
+                "ec4459bcd3d42575"
+            ]
+        ]
+    },
+    {
+        "id": "813b13c37faaa26b",
+        "type": "debug",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "20fd4fea4c41cf53",
+        "type": "function",
+        "z": "f0fb9e8a323f45cc",
+        "name": "production whToday",
+        "func": "msg.payload = msg.payload.production[1].whToday;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 440,
+        "wires": [
+            [
+                "701842e10f1eaf58",
+                "44fa80971271dd0c"
+            ]
+        ]
+    },
+    {
+        "id": "701842e10f1eaf58",
+        "type": "debug",
+        "z": "f0fb9e8a323f45cc",
+        "name": "production whToday",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 860,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "44fa80971271dd0c",
+        "type": "function",
+        "z": "f0fb9e8a323f45cc",
+        "name": "ESS/Enphase/KWh_Today",
+        "func": "if(msg.payload!=null && isNaN(msg.payload)!=true){\nglobal.set(\"CURRENT_\"+node.name, Number(msg.payload)/1000);\nmsg.payload = \n    {\n        measurement: node.name,\n        fields: {value: Number(msg.payload)/1000},\n        timestamp: new Date()\n    };\nreturn msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 500,
+        "wires": [
+            [
+                "ec4459bcd3d42575"
+            ]
+        ]
+    },
+    {
+        "id": "c0dd275f7ebdbc25",
+        "type": "mqtt out",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "topic": "ESS/Enphase/production",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "deb17e7d.3c751",
+        "x": 870,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "dd426a75833851dd",
+        "type": "http request",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://10.4.4.66/inventory.json",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "digest",
+        "x": 350,
+        "y": 1160,
+        "wires": [
+            [
+                "6651062ee2e81ac7"
+            ]
+        ]
+    },
+    {
+        "id": "ef5c43845dbe7818",
+        "type": "inject",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "2",
+        "topic": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 1160,
+        "wires": [
+            [
+                "dd426a75833851dd"
+            ]
+        ]
+    },
+    {
+        "id": "6651062ee2e81ac7",
+        "type": "debug",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "c05f384ead34290e",
+        "type": "http request",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://10.4.4.66/datatab/event_dt.rb?start=0&length=153",
+        "tls": "",
+        "persist": true,
+        "proxy": "",
+        "authType": "digest",
+        "x": 350,
+        "y": 1260,
+        "wires": [
+            [
+                "c9d42224b1fd6b59"
+            ]
+        ]
+    },
+    {
+        "id": "39908484c72e2c41",
+        "type": "inject",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "2",
+        "topic": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 1260,
+        "wires": [
+            [
+                "c05f384ead34290e"
+            ]
+        ]
+    },
+    {
+        "id": "c9d42224b1fd6b59",
+        "type": "debug",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "e250f53b8b133345",
+        "type": "function",
+        "z": "f0fb9e8a323f45cc",
+        "name": "production kwhLifetime",
+        "func": "msg.payload = msg.payload.production[1].whLifetime/1000;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 540,
+        "wires": [
+            [
+                "8beff601d6225cef",
+                "3ed3311ea43f0c46"
+            ]
+        ]
+    },
+    {
+        "id": "8beff601d6225cef",
+        "type": "debug",
+        "z": "f0fb9e8a323f45cc",
+        "name": "production kwhLifetime",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 870,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "3ed3311ea43f0c46",
+        "type": "mqtt out",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "topic": "ESS/Enphase/kwhLifetime",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "deb17e7d.3c751",
+        "x": 880,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "2d92103d98451a30",
+        "type": "mqtt out",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "topic": "ESS/Enphase/rmsVoltage",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "deb17e7d.3c751",
+        "x": 870,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "f7a092e8b4ede0ef",
+        "type": "debug",
+        "z": "f0fb9e8a323f45cc",
+        "name": "production rmsVoltage",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 860,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "d9a39f03effa1ffc",
+        "type": "function",
+        "z": "f0fb9e8a323f45cc",
+        "name": "production rmsVoltage",
+        "func": "msg.payload = msg.payload.production[1].rmsVoltage;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 660,
+        "wires": [
+            [
+                "f7a092e8b4ede0ef",
+                "2d92103d98451a30"
+            ]
+        ]
+    },
+    {
+        "id": "96f7f330f400cbf3",
+        "type": "mqtt out",
+        "z": "f0fb9e8a323f45cc",
+        "name": "",
+        "topic": "ESS/Enphase/rmsCurrent",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "deb17e7d.3c751",
+        "x": 870,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "2cf6cfffc8207da3",
+        "type": "debug",
+        "z": "f0fb9e8a323f45cc",
+        "name": "production rmsCurrent",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 860,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "fddd9fab873176d7",
+        "type": "function",
+        "z": "f0fb9e8a323f45cc",
+        "name": "production rmsCurrent",
+        "func": "msg.payload = msg.payload.production[1].rmsCurrent;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 780,
+        "wires": [
+            [
+                "2cf6cfffc8207da3",
+                "96f7f330f400cbf3"
+            ]
+        ]
+    },
+    {
+        "id": "deb17e7d.3c751",
+        "type": "mqtt-broker",
+        "name": "4 Lanarth",
+        "broker": "10.4.4.36",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "compatmode": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
