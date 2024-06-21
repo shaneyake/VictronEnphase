@@ -5,3 +5,5 @@ You will need to get the Installer Password and insert it in the nodered.
 
 mqtt_to_dbus_PV_Enphase.py does the MQTT to D-Bus commication.
 The device will show up in the GX as a PV inverter.
+
+nohup python /data/mqtt_to_dbus_PV_Enphase.py >/dev/null 2>&1 &
